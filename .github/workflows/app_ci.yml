@@ -9,9 +9,7 @@ on:
 jobs:
 
   test:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Run maven test
@@ -24,9 +22,7 @@ jobs:
       run: mvn test
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 8
@@ -36,19 +32,15 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn install
 
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
+    - uses: actions/upload-artifact@v3
       with:
-      # Artifact name
-        name: artifact
-      # Destination path
+        name: build-artifact
         path: target
 
   Analysis:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest  
     steps:
       - name: Analyze with SonarCloud         
 
