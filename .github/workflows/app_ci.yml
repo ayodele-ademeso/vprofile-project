@@ -48,7 +48,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
         with:
           args:             
-            -Dsonar.projectKey=ayodele-ademeso
-            -Dsonar.organization=vprofile-project
+            -Dsonar.projectKey=ayodele-ademeso_vprofile-project
+            -Dsonar.organization=ayodele-spencer
 
   
