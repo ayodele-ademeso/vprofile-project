@@ -35,7 +35,7 @@ jobs:
       run: mvn install
     - uses: actions/upload-artifact@v3
       with:
-        name: build-artifact
+        name: build-artifact.${{ github.run_number }}
         path: target
 
   CodeAnalysis:
@@ -50,5 +50,24 @@ jobs:
           args:             
             -Dsonar.projectKey=ayodele-ademeso_vprofile-project
             -Dsonar.organization=ayodele-spencer
+
+
+  Deploy:
+    name: Deploy
+    needs: Build
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: build-artifact.${{ github.run_number }}
+          path: target
+      - name: Deploy to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: aws s3 sync ./target/vprofile-v2.war s3://${{ secrets.S3_BUCKET }}
 
   
